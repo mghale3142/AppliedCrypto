@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="lib/microsoft-azure-storage/src"/>
+	<classpathentry kind="src" path="lib/commons-lang3-3.4-src/src/main/java"/>
+	<classpathentry kind="src" path="lib/jackson-core-master/src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/jcl-over-slf4j-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/jcl-over-slf4j-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/jul-to-slf4j-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/jul-to-slf4j-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/log4j-over-slf4j-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/log4j-over-slf4j-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/osgi-over-slf4j-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/osgi-over-slf4j-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-android-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-android-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-api-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-api-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-ext-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-ext-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-jcl-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-jcl-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-jdk14-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-jdk14-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-log4j12-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-log4j12-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-migrator-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-nop-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-nop-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-simple-1.7.13-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.13/slf4j-simple-1.7.13.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
