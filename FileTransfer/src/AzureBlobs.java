@@ -1,4 +1,6 @@
-import java.io.Console;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -48,7 +50,9 @@ public class AzureBlobs {
 		catch(Exception e) {
 			connectionSet = false;
 			// Output the stack trace.
-		    e.printStackTrace();
+		    // e.printStackTrace();
+			System.err.println("Wrong Credentials, try again.");
+			System.exit(1);
 		}
 	}
 	
@@ -157,33 +161,47 @@ public class AzureBlobs {
 		}
 	}
 	
-	public void handleCommands(Console c) {
+	public void handleCommands(BufferedReader br) throws IOException {
+		System.out.println("logged in");
 		int count = 0;
 		while(count<=10) {
-			String command = c.readLine("Choose action: list, upload, download or logout").toLowerCase();
+			System.out.println("Choose action: list, upload, download or logout");
+			String command = br.readLine().toLowerCase();
 			String filepath;
 			String container;
 			count++;
 			switch(command) {
 			case "list":
-				container = c.readLine("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				container = br.readLine();
 				listBlobs(container);
 				break;
 			case "upload":
-				filepath = c.readLine("Enter filepath: ");
-				container = c.readLine("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter filepath: ");
+				filepath = br.readLine();
+				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				container = br.readLine();
+				EncryptDecrypt.encryptFile(filepath);
 				uploadBlob(filepath, container);
 				break;
 			case "download":
-				filepath = c.readLine("Enter filepath (do not include the name of the file): ");
-				container = c.readLine("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter filepath (do not include the name of the file): ");
+				filepath = br.readLine();
+				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				container = br.readLine();
 				downloadBlob(filepath, container);
+				System.out.println("Enter the key to decrypt the file");
+				Byte[] key = EncryptDecrypt.getByteArr(br.readLine());
+				System.out.println("Enter the IV to decrypt the file");
+				Byte[] iv = EncryptDecrypt.getByteArr(br.readLine());
+				EncryptDecrypt.decryptFile(filepath, key, iv);
 				break;
 			case "logout":
 				System.out.println("Logging out.");
 				System.exit(0);
 			default:
 				System.out.println("Didn't recongnize action.");
+				break;
 			}
 		}
 		System.out.println("Only 10 actions can be performed at a time, please start again.");
@@ -192,23 +210,23 @@ public class AzureBlobs {
 	
 	public static void main(String[] args) {
 		// Might have to switch to buffered reader if problem with synchronization.
-		Console c = System.console();
-        if (c == null) {
-            System.err.println("No console.");
-            System.exit(1);
-        }
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
-        String acName = c.readLine("Enter your Azure account name: ");
-        String acKey = new String(c.readPassword("Enter your Azure key: "));
+		System.out.println("Enter your Azure account name: ");
+        String acName;
+		try {
+			acName = br.readLine();
+			System.out.print("Enter your Azure key: ");
+	        String acKey = br.readLine();
+	        
+	        AzureBlobs ab = new AzureBlobs(acName, acKey);
+	        
+	        ab.handleCommands(br);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        AzureBlobs ab = new AzureBlobs(acName, acKey);
-        
-        if(!ab.connectionSet) {
-        	System.err.println("Wrong credentials, try again.");
-            System.exit(1);
-        }
-        
-        ab.handleCommands(c);
 	}
 
 }
