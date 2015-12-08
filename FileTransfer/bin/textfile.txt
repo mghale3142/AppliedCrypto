@@ -1,0 +1,5 @@
+This is a text file.
+1) break it into encrypt and decrypt methods
+2) ask for the ac name, ackey
+3) ask whether they want to upload or download?
+4) ask for the file path and container name
