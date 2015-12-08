@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
 
+
+import org.bouncycastle.util.encoders.Base64;
+
 public class AzureBlobs {
 	
 	private String storageConnectionString;
@@ -30,14 +33,15 @@ public class AzureBlobs {
 	
 	/**
 	 * @param acName
-	 * @param acKey
+	 * @param acKey: ynNyS547X1JcvM1TpojdpRWMgATGemLRawgjJ/UkRmw6Km6GuIvsjpZuwVI4FgE174Q1d82q8oLBxw6EuZ5ScA==
 	 * 
 	 * Connects to storage account and creates client.
 	 */
 	public AzureBlobs(String acName, String acKey) {
+		
 		storageConnectionString = "DefaultEndpointsProtocol=http;" +
 			    "AccountName=" + acName + ";" +
-			    "AccountKey=y" + acKey;
+			    "AccountKey=" + acKey;
 		try {
 			// Retrieve storage account from connection-string.
 		    storageAccount = CloudStorageAccount.parse(storageConnectionString);
@@ -71,21 +75,22 @@ public class AzureBlobs {
 		try
 		{
 		   // Get a reference to a container.
+			
 		   // The container name must be lower case
 		   CloudBlobContainer container = blobClient.getContainerReference(containerName);
-
-		   // Create the container if it does not exist.
-		    container.createIfNotExists();
-		    return container;
+		   return container;
 		}
 		catch (Exception e)
 		{
 		    // Output the stack trace.
 		    e.printStackTrace();
+		    System.exit(1);
 		    return null;
 		}
 	}
-	
+	/**
+	 * 
+	 */
 	/**
 	 * @param filePath
 	 * @param containerName
@@ -95,9 +100,7 @@ public class AzureBlobs {
 		{
 			// Retrieve reference to a previously created container.
 		    CloudBlobContainer container = getContainer(containerName);//blobClient.getContainerReference("mycontainer");
-
 		    File source = new File(filePath);
-
 		    // Create or overwrite the file blob with contents from a local file.
 		    CloudBlockBlob blob = container.getBlockBlobReference(source.getName());
 		    blob.upload(new FileInputStream(source), source.length());
@@ -167,34 +170,40 @@ public class AzureBlobs {
 		while(count<=10) {
 			System.out.println("Choose action: list, upload, download or logout");
 			String command = br.readLine().toLowerCase();
-			String filepath;
+			String inputFilepath;
+			String outputFilepath;
 			String container;
 			count++;
 			switch(command) {
 			case "list":
-				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter the name of the Azure container (doesn't create a new one if it doesn't exist): ");
 				container = br.readLine();
 				listBlobs(container);
 				break;
 			case "upload":
-				System.out.println("Enter filepath: ");
-				filepath = br.readLine();
-				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter input filepath (file to encrypt): ");
+				inputFilepath = br.readLine();
+				System.out.println("Enter output filepath (location to store encrypted file): ");
+				outputFilepath = br.readLine();
+				
+				System.out.println("Enter the name of the Azure container (doesn't create a new one if it doesn't exist: ");
 				container = br.readLine();
-				EncryptDecrypt.encryptFile(filepath);
-				uploadBlob(filepath, container);
+				EncryptDecrypt.encryptFile(inputFilepath, outputFilepath);
+				uploadBlob(outputFilepath, container);
 				break;
 			case "download":
-				System.out.println("Enter filepath (do not include the name of the file): ");
-				filepath = br.readLine();
-				System.out.println("Enter the name of the Azure container (creates a new one if it doesn't exist: ");
+				System.out.println("Enter download filepath (location to download from container): ");
+				inputFilepath = br.readLine();
+				System.out.println("Enter output filepath (location to store decrypted file): ");
+				outputFilepath = br.readLine();
+				System.out.println("Enter the name of the Azure container (doesn't create a new one if it doesn't exist: ");
 				container = br.readLine();
-				downloadBlob(filepath, container);
+				downloadBlob(inputFilepath, container);
 				System.out.println("Enter the key to decrypt the file");
-				Byte[] key = EncryptDecrypt.getByteArr(br.readLine());
+				byte[] key = Base64.decode(br.readLine());
 				System.out.println("Enter the IV to decrypt the file");
-				Byte[] iv = EncryptDecrypt.getByteArr(br.readLine());
-				EncryptDecrypt.decryptFile(filepath, key, iv);
+				byte[] iv = Base64.decode(br.readLine());
+				EncryptDecrypt.decryptFile(inputFilepath, key, iv, outputFilepath);
 				break;
 			case "logout":
 				System.out.println("Logging out.");
