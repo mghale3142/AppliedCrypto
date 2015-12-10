@@ -32,12 +32,16 @@ public class AzureBlobs {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * TBsQFnjFMsY5wmb8RiJYmP1WpPSfVvBa+M/WecDcUbk=
 IV:
 Ajl8jLDTXKYtMt2Wk18cNg==
 	 */
 	/**
 	 * @param acName: appliedcrypto
+=======
+	 * @param acName
+>>>>>>> fcfc20dbb2af57f53bfa4cadd35394defc24fea4
 	 * @param acKey: ynNyS547X1JcvM1TpojdpRWMgATGemLRawgjJ/UkRmw6Km6GuIvsjpZuwVI4FgE174Q1d82q8oLBxw6EuZ5ScA==
 	 * 
 	 * Connects to storage account and creates client.
