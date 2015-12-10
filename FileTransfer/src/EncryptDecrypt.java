@@ -37,7 +37,7 @@ import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 
 public class EncryptDecrypt {
-	/*
+	
     public static void main(String [] args) throws Exception {
         
     	//args[0] is to encrypt or decrypt
@@ -72,7 +72,7 @@ public class EncryptDecrypt {
         
         
     }	
-	*/
+	
 	private static byte[] cipherData(PaddedBufferedBlockCipher cipher, byte[] data)
 	        throws Exception
 	{
@@ -196,7 +196,7 @@ public class EncryptDecrypt {
 	}
 	
 	public static void decryptFile(String filepath, byte[] key, byte[] iv, String outputFilepath){
-		System.out.println("input: "+filepath +" output file: " + outputFilepath);
+		
 		FileInputStream inputCipherFile = null;
 		try {
 			inputCipherFile = new FileInputStream(filepath);

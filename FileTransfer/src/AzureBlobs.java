@@ -32,7 +32,12 @@ public class AzureBlobs {
 	}
 	
 	/**
-	 * @param acName
+	 * TBsQFnjFMsY5wmb8RiJYmP1WpPSfVvBa+M/WecDcUbk=
+IV:
+Ajl8jLDTXKYtMt2Wk18cNg==
+	 */
+	/**
+	 * @param acName: appliedcrypto
 	 * @param acKey: ynNyS547X1JcvM1TpojdpRWMgATGemLRawgjJ/UkRmw6Km6GuIvsjpZuwVI4FgE174Q1d82q8oLBxw6EuZ5ScA==
 	 * 
 	 * Connects to storage account and creates client.
@@ -139,7 +144,7 @@ public class AzureBlobs {
 	 * @param filepath
 	 * @param containerName
 	 */
-	public void downloadBlob(String filepath, String containerName) {
+	public void downloadBlob(String blobToDownload, String filepath, String containerName) {
 		try
 		{
 		   // Retrieve reference to a previously created container.
@@ -151,7 +156,10 @@ public class AzureBlobs {
 		       if (blobItem instanceof CloudBlob) {
 		           // Download the item and save it to a file with the same name.
 		            CloudBlob blob = (CloudBlob) blobItem;
-		            blob.download(new FileOutputStream(filepath + blob.getName()));
+		            System.out.println(blob.getName());
+		            if(blob.getName().equals(blobToDownload)) {
+		            	blob.download(new FileOutputStream(filepath + blob.getName()));
+		            }
 		        }
 		    }
 		   System.out.println("Successful.");
@@ -192,18 +200,20 @@ public class AzureBlobs {
 				uploadBlob(outputFilepath, container);
 				break;
 			case "download":
-				System.out.println("Enter download filepath (location to download from container): ");
+				System.out.println("Enter name of the blob you want to download (*.txt) : ");
+				String blobName = br.readLine();
+				System.out.println("Enter download filepath (location to download from container, the name of the blob will be maintained so don't include filename): ");
 				inputFilepath = br.readLine();
-				System.out.println("Enter output filepath (location to store decrypted file): ");
+				System.out.println("Enter output filepath (location to store decrypted file, include filename): ");
 				outputFilepath = br.readLine();
 				System.out.println("Enter the name of the Azure container (doesn't create a new one if it doesn't exist: ");
 				container = br.readLine();
-				downloadBlob(inputFilepath, container);
+				downloadBlob(blobName,inputFilepath, container);
 				System.out.println("Enter the key to decrypt the file");
 				byte[] key = Base64.decode(br.readLine());
 				System.out.println("Enter the IV to decrypt the file");
 				byte[] iv = Base64.decode(br.readLine());
-				EncryptDecrypt.decryptFile(inputFilepath, key, iv, outputFilepath);
+				EncryptDecrypt.decryptFile(inputFilepath+blobName, key, iv, outputFilepath);
 				break;
 			case "logout":
 				System.out.println("Logging out.");
